@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/course_meta/db" VERSION="20130108" COMMENT="XMLDB file for Moodle local/course_meta"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="course_meta_info_field" COMMENT="Customisable course profile fields" NEXT="course_meta_info_category">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="shortname"/>
+        <FIELD NAME="shortname" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT="shortname" SEQUENCE="false" COMMENT="short name for each field" PREVIOUS="id" NEXT="name"/>
+        <FIELD NAME="name" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="field name" PREVIOUS="shortname" NEXT="datatype"/>
+        <FIELD NAME="datatype" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Type of data held in this field" PREVIOUS="name" NEXT="description"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Description of field" PREVIOUS="datatype" NEXT="descriptionformat"/>
+        <FIELD NAME="descriptionformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="description" NEXT="categoryid"/>
+        <FIELD NAME="categoryid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="id from category table" PREVIOUS="descriptionformat" NEXT="sortorder"/>
+        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="order within the category" PREVIOUS="categoryid" NEXT="defaultdata"/>
+        <FIELD NAME="defaultdata" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Default value for this field" PREVIOUS="sortorder" NEXT="defaultdataformat"/>
+        <FIELD NAME="defaultdataformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="defaultdata" NEXT="param1"/>
+        <FIELD NAME="param1" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="General parameter field" PREVIOUS="defaultdataformat" NEXT="param2"/>
+        <FIELD NAME="param2" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="General parameter field" PREVIOUS="param1" NEXT="param3"/>
+        <FIELD NAME="param3" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="General parameter field" PREVIOUS="param2" NEXT="param4"/>
+        <FIELD NAME="param4" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="General parameter field" PREVIOUS="param3" NEXT="param5"/>
+        <FIELD NAME="param5" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="General parameter field" PREVIOUS="param4"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="course_meta_info_category" COMMENT="Customisable fields categories" PREVIOUS="course_meta_info_field" NEXT="course_meta_info_data">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="name"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Category name" PREVIOUS="id" NEXT="sortorder"/>
+        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Display order" PREVIOUS="name"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="course_meta_info_data" COMMENT="Data for the customisable course fields" PREVIOUS="course_meta_info_category">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="courseid"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="id from the user table" PREVIOUS="id" NEXT="fieldid"/>
+        <FIELD NAME="fieldid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="id from the field table" PREVIOUS="courseid" NEXT="data"/>
+        <FIELD NAME="data" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Field data" PREVIOUS="fieldid" NEXT="dataformat"/>
+        <FIELD NAME="dataformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="data"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="userfieldidx" UNIQUE="false" FIELDS="courseid, fieldid"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>
