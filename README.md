@@ -22,15 +22,21 @@ So that means having `/local/customscripts` as well as `/local/course_meta`. Moo
 `mdl_course_meta_info_data` - the actual data stored by a custom field (in context of field / course)
 `mdl_course_meta_info_field` - the definition of a custom field (like its name, field type, etc)
 
+Editing / Usage
+---------------
+
 It should only allow permission to editing by managers; the capabilities are defined as such:
 
-users : local/course_meta:view
-manager : local/course_meta:edit
-admin : local/course_meta:admin
+users : `local/course_meta:view`
+manager : `local/course_meta:edit`
+admin : `local/course_meta:admin`
 
-so use the normal manager role for the editing.
+so in an out of the box installation use the manager role for the editing, and the admin role for setting it up.
 
-These plugins also add a new element to the course branch of the site administration menu, called `Manage custom fields`, which opens the field editor. This option requires local/course_meta:admin capability.
+These plugins also add a new element to the course branch of the site administration menu, called `Manage custom fields`, which opens the field editor. This option requires `local/course_meta:admin` capability.
+
+Guff
+----
 
 Well, that's about it so far. There's no stub functions [yet] to grab data by course/fieldname, I generally put these into the lib.php in my other plugins or themes where I consume these fields.
 
