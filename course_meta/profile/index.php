@@ -1,9 +1,13 @@
 <?php
 
-require('../../../config.php');
+require($CFG->dirroot.'/config.php');
+require_once($CFG->dirroot.'/local/course_meta/lib.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once($CFG->dirroot.'/local/course_meta/profile/lib.php');
 require_once($CFG->dirroot.'/local/course_meta/profile/definelib.php');
+
+// kick off by ensuring vw_course_metadata reflects the latest fields 
+course_meta_rebuild_view();
 
 $action   = optional_param('action', '', PARAM_ALPHA);
 

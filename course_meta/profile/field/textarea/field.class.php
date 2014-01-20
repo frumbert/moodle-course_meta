@@ -7,7 +7,7 @@ class profile_field_textarea extends profile_field_base {
         $rows = $this->field->param2;
 
         /// Create the form field
-        $mform->addElement('editor', $this->inputname, format_string($this->field->name), null, null);
+        $mform->addElement('editor', $this->inputname, format_string($this->field->name), null, null); // ' rows="5"', null);
         $mform->setType($this->inputname, PARAM_RAW); // we MUST clean this before display!
     }
 

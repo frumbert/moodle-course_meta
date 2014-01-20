@@ -1,0 +1,34 @@
+#tab-catalogue {
+	
+}
+#tab-links {
+	margin: 0;
+	padding: 0;
+	list-style-position: inside;
+}
+#tab-links li {
+	padding: 0;
+	margin: 0 1px 0 0;
+	display: inline-block;
+	list-style-type: none;
+}
+#tab-links li a {
+	display: block;
+	color: #fff;
+	text-decoration: none;
+	padding: 10px 20px;
+	border: 1px solid #000;
+	border-bottom: none;
+	border-radius: 5px 5px 0 0;
+	background-color: rgba(0,0,0,.5);
+}
+#tab-links li.active a {
+	background-color: transparent;
+	color: #000;
+}
+#tab-bodies {
+	clear: both;
+	border: 1px solid #000;
+	border-radius: 0 0 5px 5px;
+	padding: 10px;
+}

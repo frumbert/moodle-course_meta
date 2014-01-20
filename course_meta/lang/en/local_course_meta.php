@@ -8,3 +8,5 @@
 $string['courseprofilefields'] = 'Manage custom fields';
 $string['manageplugin'] = 'Course metadata';
 $string['pluginname'] = 'Course metadata';
+
+$string['customfieldrequired'] = "Field required";
