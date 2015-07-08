@@ -32,7 +32,7 @@ There are 3 folders and you need to install them in a particular way.
 4. If required, add `coursecatalogue` to your `~/filters/` folder.
 5. Enable the filter (or set it to Off but available) and enable it on the front page.
 6. Create a filter template by looking at the Course Catalogue filter settings. Looking at this page updates a VIEW in the database which represents all the metadata columns available to courses. You also have to set a template in order for the next step to work.
-7. In the default topic of the front page (or any course where you enabled the filter), add [course-catalogue] to the html of the page (using the standard editor is fine). This works like a shortcode in Wordpress - it replaces the key with the catalogue, and registers the scripts and styles on the page needed to make it work.
+7. In the default topic of the front page (or any course where you enabled the filter), add `[course-catalogue]` to the html of the page (using the standard editor is fine). This works like a shortcode in Wordpress - it replaces the key with the catalogue, and registers the scripts and styles on the page needed to make it work.
 
 Installing the course_meta plugin will create 3 new tables in the database -
 
@@ -68,8 +68,8 @@ To play with a course catalogue, you need to create particular fields to start o
 		(1,'tab','Tab','menukeys','Which tab the course appears under in the catalogue',1,2,2,'webinars',0,'online\nblended','Online courses\nBlended learning',NULL,NULL,NULL),
 		(2,'listed','Listed in catalogue?','checkbox','If the course is shown in the catalogue / search',1,2,1,'1',0,NULL,NULL,NULL,NULL,NULL),
 		(3,'keywords','Search keywords (comma separated)','text','Used in catalogue search alongside name, description',1,2,10,'',0,'60','2048','0','',''),
-		(4,'description','Course description','textarea','Description for the catalogue; might be different than the course homepage.',1,2,11,NULL,0,NULL,NULL,NULL,NULL,NULL);
-		(5,'notes','Developer notes','textarea','Things that might be important to write down about this particular course',1,1,1,'',1,NULL,NULL,NULL,NULL,NULL),
+		(4,'description','Course description','textarea','Description for the catalogue; might be different than the course homepage.',1,2,11,NULL,0,NULL,NULL,NULL,NULL,NULL),
+		(5,'notes','Developer notes','textarea','Things that might be important to write down about this particular course',1,1,1,'',1,NULL,NULL,NULL,NULL,NULL);
 	
 	ALTER TABLE `mdl_course_meta_info_field` ENABLE KEYS
 	UNLOCK TABLES;
