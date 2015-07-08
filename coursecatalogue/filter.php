@@ -41,13 +41,22 @@ class filter_coursecatalogue extends moodle_text_filter {
 				return preg_replace($find, '', $text);
    	        }
 
+   			$apply_defaults = false;
+   			if (isset($CFG->filter_coursecatalogue_defaults)) {
+   				if ($CFG->filter_coursecatalogue_defaults == "1") {
+	   				$apply_defaults = true;
+   				}
+   			}
+   			
 			// include tab clicker code
-			$module = array(
-				'name'     => 'filter_coursecatalogue',
-				'fullpath' => '/filter/coursecatalogue/filter.js',
-				'requires' => array()
-			);
-			$PAGE->requires->js_init_call('M.filter_coursecatalogue.init', array(), false, $module);
+   			if ($apply_defaults) {
+				$module = array(
+					'name'     => 'filter_coursecatalogue',
+					'fullpath' => '/filter/coursecatalogue/filter.js',
+					'requires' => array('node','event')
+				);
+				$PAGE->requires->js_init_call('M.filter_coursecatalogue.init', array(), false, $module);
+			}
 
 	    	$categoryid = filter_coursecatalogue_course_meta_categoryid('Catalogue');
 			$tabs = filter_coursecatalogue_course_meta_info_row('tab', $categoryid);

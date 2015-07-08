@@ -14,4 +14,4 @@ $plugin->version  = 2014011700;
 $plugin->requires = 2012061700;  // Requires this Moodle version
 $plugin->component= 'filter_coursecatalogue';
 
-$plugin->cron	= 43200; // run twice a day; 86400
+// $plugin->cron	= 43200; // run twice a day

@@ -57,7 +57,7 @@
 	// Moodle can't return the result of a SP, and MySQL can't do pivots too easily, so we build a view
 	// Views can't have dynamic columns either, so we have to rebuild the view itself to reflect any new
 	// column names that might have been added.
-	//
+	/*
 	
 	function filter_coursecatalogue_rebuild_view() {
 		global $DB;
@@ -85,7 +85,7 @@
 	
 	function filter_coursecatalogue_cron () {
 		filter_coursecatalogue_rebuild_view();
-	}
+	} */
 	
 	//
 	//	Grab a givem record from the meta field definition
@@ -103,15 +103,21 @@
 		return false;
 	}
 	
-	function filter_coursecatlogue_format_cpdinfo($csv) {
+	function filter_coursecatlogue_format_table($csv) {
 		$lines = preg_split('/\r\n|\r|\n/',$csv);
 		$out = Array();
-		$out[] = html_writer::start_tag('table', array('class'=>'cpd-text')) . html_writer::start_tag('tbody'); // "<table><tbody>";
+		$tri = 0;
+		$out[] = html_writer::start_tag('table') . html_writer::start_tag('tbody'); // "<table><tbody>";
 		foreach ($lines as $line) {
 			$cells = explode(';',$line);
-			$out[] = html_writer::tag('tr',
-                html_writer::tag('th', $cells[0], array('class' => 'label c0')) .
-                html_writer::tag('td', $cells[1], array('class' => 'info c1')));
+			$out[] = html_writer::start_tag('tr', array('class' => 'r'.$tri));
+			$tdi = 0;
+			foreach ($cells as $td) {
+				$out[] = html_writer::tag('td', $td, array('class' => 'c'.$tdi));
+				$tdi++;
+			}
+            $out[] = html_writer::end_tag('tr');
+			$tri++;
 		}
 		$out[] = html_writer::end_tag('tbody') . html_writer::end_tag('table');
 		return implode($out,'');
@@ -148,14 +154,21 @@
 				$template = str_replace('['.$key.']',$course->{$key},$template);
 			}
 
-			// handle IF blocks
+			// handle IF blocks [if condition1,condition2]
 			$start = strpos($template, '[#if ');
 			while ($start > 0):
 				$start_close = strpos($template, ']', $start);
 				$key = substr($template, $start + 5, $start_close - ($start + 5));
-				if (empty($course->{$key}) || ($course->{$key} == FALSE)) { // ($course->{$key} === 0) || 
+				$found = false;
+				$keys = explode(',', $key);
+				foreach ($keys as $match) {
+					if (!(empty($course->{$match}) || ($course->{$match} == FALSE))) {
+						$found = true;
+					}
+				}
+				if (!$found) { // erase this section - which is why we use [/if key] notation
 					$end = strpos($template, '[/if ' . $key . ']', $start_close);
-					$end_close = $end + strlen($key) + 6; // strpos($template, ']', $end);
+					$end_close = $end + strlen($key) + 6;
 					$val = substr($template, $start, $end_close - $start);
 					$template = str_replace($val,'',$template);
 				} else {
@@ -164,13 +177,37 @@
 				}
 				$start = strpos($template, '[#if ');
 			endwhile;
+
+			// handle NOT blocks [NOT condition1,condition2]
+			$start = strpos($template, '[#not ');
+			while ($start > 0):
+				$start_close = strpos($template, ']', $start);
+				$key = substr($template, $start + 6, $start_close - ($start + 6));
+				$found = false;
+				$keys = explode(',', $key);
+				foreach ($keys as $match) {
+					if (!(empty($course->{$match}) || ($course->{$match} == FALSE))) {
+						$found = true;
+					}
+				}
+				if ($found) { // erase this section - which is why we use [/if key] notation
+					$end = strpos($template, '[/not ' . $key . ']', $start_close);
+					$end_close = $end + strlen($key) + 7;
+					$val = substr($template, $start, $end_close - $start);
+					$template = str_replace($val,'',$template);
+				} else {
+					$template = str_replace('[#not '.$key.']','',$template);
+					$template = str_replace('[/not '.$key.']','',$template);
+				}
+				$start = strpos($template, '[#not ');
+			endwhile;
 			
 			// handle TABLE blocks
 			$start = strpos($template, '[#table ');
 			while ($start > 0):
 				$start_close = strpos($template, ']', $start);
 				$key = substr($template, $start + 8, $start_close - ($start + 8));
-				$val = filter_coursecatlogue_format_cpdinfo($course->{$key});
+				$val = filter_coursecatlogue_format_table($course->{$key});
 				$template = str_replace('[#table ' . $key . ']', $val, $template);
 				$start = strpos($template, '[#table ');
 			endwhile;
