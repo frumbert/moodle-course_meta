@@ -1,8 +1,8 @@
 #tab-catalogue {
-	
+
 }
 #tab-links {
-	margin: 0;
+	margin: 0 0 -1px 0;
 	padding: 0;
 	list-style-position: inside;
 }
@@ -18,13 +18,13 @@
 	text-decoration: none;
 	padding: 10px 20px;
 	border: 1px solid #000;
-	border-bottom: none;
 	border-radius: 5px 5px 0 0;
 	background-color: rgba(0,0,0,.5);
 }
 #tab-links li.active a {
 	background-color: transparent;
 	color: #000;
+	border-bottom: 1px solid #fff;
 }
 #tab-bodies {
 	clear: both;
