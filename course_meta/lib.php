@@ -37,7 +37,7 @@ function course_meta_rebuild_view() {
 	}
 	if (count($built) > 0) {
 		$sql = "CREATE OR REPLACE VIEW {vw_course_metadata} AS (
-				SELECT c.`id` as courseid, c.`fullname`,
+				SELECT c.`id` as courseid, c.`fullname`, c.`shortname`, c.`idnumber`,
 				f.`categoryid`,".implode($built,',')." FROM {course_meta_info_data} i
 				JOIN {course_meta_info_field} f ON i.fieldid = f.id
 				JOIN {course} c ON i.courseid = c.id

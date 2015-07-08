@@ -7,8 +7,11 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$ADMIN->add('courses', new admin_externalpage('courseprofilefields', get_string('courseprofilefields', 'local_course_meta'),
-        $CFG->wwwroot."/local/course_meta/profile/index.php"),
-        'moodle/site:config'));
+$ADMIN->add('courses'
+			, new admin_externalpage('courseprofilefields',
+									get_string('courseprofilefields', 'local_course_meta'),
+									$CFG->wwwroot."/local/course_meta/profile/index.php"
+									)
+			);
 
 // local/course_meta:admin'));
