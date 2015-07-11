@@ -1,3 +1,3 @@
-[submodule "course_meta/profile/field/moodle-profilefield_multiselect"]
-	path = course_meta/profile/field/moodle-profilefield_multiselect
+[submodule "course_meta/profile/field/multiselect"]
+	path = course_meta/profile/field/multiselect
 	url = https://github.com/frumbert/moodle-profilefield_multiselect.git
