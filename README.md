@@ -3,7 +3,7 @@ moodle-course_meta
 
 A quick way of adding custom fields to courses. Based on work by Mark Nelson, Pukunui. I couldn't find a repository for the original. Interesting to note that Totara LMS, based also on Moodle, implements its own version of course metadata fields (https://github.com/moodlehq/totara). Their code is neater than mine, so look that up if you want to play. 
 
-Designed with Moodle 2.3 in mind, but could be ported to other newer versions fairly easily, once you understand how it works.
+The [Master](https://github.com/frumbert/moodle-course_meta/tree/master) branch was designed with Moodle 2.3 in mind. Switch branches to grab the code for [Moodle 2.7](https://github.com/frumbert/moodle-course_meta/tree/Moodle2.7) or [Moodle 2.8.7](https://github.com/frumbert/moodle-course_meta/tree/Moodle2.8.7).
 
 You would use this when you want custom fields to appear on course fields, not just users. This method uses a little-known feature of Moodle where you can override an edit form by using "customscripts". It's documented in config-dist.php in Moodle's install folder, but the gist is that if `$CFG->customscripts/course/view.php` exists then it will be used instead of `$CFG->wwwroot/course/view.php`
 
