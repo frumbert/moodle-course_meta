@@ -1,7 +1,7 @@
 moodle-course_meta
 ==================
 
-A quick way of adding custom fields to courses. Based on work by Mark Nelson, Pukunui. I couldn't find a repository for the original. Interesting to note that Totara LMS, based also on Moodle, implements its own version of course metadata fields (https://github.com/moodlehq/totara). Their code is neater than mine, so look that up if you want to play. 
+A quick way of adding custom fields to courses. Based on work by Mark Nelson, Pukunui. I couldn't find a repository for the original. Interesting to note that Totara LMS, based also on Moodle, implements its own version of course metadata fields (https://github.com/moodlehq/totara). Their code is neater than mine, so look that up if you want to play.
 
 Designed with Moodle 2.3 in mind, but could be ported to other newer versions fairly easily, once you understand how it works.
 
@@ -21,18 +21,14 @@ Installation of the filter first requires the course_meta local plugin to be ins
 How to install
 --------------
 
-There are 3 folders and you need to install them in a particular way.
+There are multiple folders and you need to install them in a particular way.
 
 1. Copy `course_meta` and `customscripts` into `~/local/` (where `~` is your moodle root).
 2. Add the following line to your config.php:
 
 	`$CFG->customscripts = __DIR__.'/local/customscripts';`
 
-3. As admin, go to site notifications and install the two plugins.
-4. If required, add `coursecatalogue` to your `~/filters/` folder.
-5. Enable the filter (or set it to Off but available) and enable it on the front page.
-6. Create a filter template by looking at the Course Catalogue filter settings. Looking at this page updates a VIEW in the database which represents all the metadata columns available to courses. You also have to set a template in order for the next step to work.
-7. In the default topic of the front page (or any course where you enabled the filter), add [course-catalogue] to the html of the page (using the standard editor is fine). This works like a shortcode in Wordpress - it replaces the key with the catalogue, and registers the scripts and styles on the page needed to make it work.
+3. As admin, go to site notifications and install these two plugins. (This must be done before installing any optional filters)
 
 Installing the course_meta plugin will create 3 new tables in the database -
 
@@ -40,9 +36,27 @@ Installing the course_meta plugin will create 3 new tables in the database -
 `mdl_course_meta_info_data` - the actual data stored by a custom field (in context of field / course)
 `mdl_course_meta_info_field` - the definition of a custom field (like its name, field type, etc)
 
-Installing the coursecatalogue filter will create a VIEW in the database
+Installing the coursecatalogue filter and/or coursemeta filter will create a VIEW in the database (currently compatible with MySql).
 
 `mdl_vw_course_metadata` - a crosstab of the course id against all metadata fields defined for courses.
+
+Course Catalogue filter (optional)
+---------------------
+This dumps the metadata for each course into a tab-based catalogue you can use on your moodle homepage.
+
+1. Add `coursecatalogue` to your `~/filters/` folder.
+2. Enable the filters (set to Off but available) and enable it on the front page.
+3. Create a filter template by looking at the Course Catalogue filter settings. Looking at this page updates a VIEW in the database which represents all the metadata columns available to courses. You also have to set a template in order for the next step to work.
+4. In the default topic of the front page (or any course where you enabled the filter), add *[course-catalogue]* to the html of the page (using the standard editor is fine). This works like a shortcode in Wordpress - it replaces the key with the catalogue, and registers the scripts and styles on the page needed to make it work.
+
+Course Meta filter (optional)
+----------------------
+This outputs the value of one custom field to where you specify.
+
+1. Add `coursemeta` to your `~/filters/` folder.
+2. Enable the filters (set to Off but available) and enable it on any course page where you want to use it.
+3. Edit the html of an area where you want the field to appear and type in *[coursemeta.categoryName.fieldShortName]*, where /categoryName/ is the name of the course meta category, and /fieldShortName/ is the shortname of the meta field.
+
 
 Default data
 ---------------
@@ -51,18 +65,18 @@ To play with a course catalogue, you need to create particular fields to start o
 
 	LOCK TABLES `mdl_course_meta_info_category` WRITE;
 	ALTER TABLE `mdl_course_meta_info_category` DISABLE KEYS
-	
+
 	INSERT INTO `mdl_course_meta_info_category` (`id`, `name`, `sortorder`)
 	VALUES
 		(1,'Developer notes',2),
 		(2,'Catalogue',1);
-	
+
 	ALTER TABLE `mdl_course_meta_info_category` ENABLE KEYS
 	UNLOCK TABLES;
-	
+
 	LOCK TABLES `mdl_course_meta_info_field` WRITE;
 	ALTER TABLE `mdl_course_meta_info_field` DISABLE KEYS
-	
+
 	INSERT INTO `mdl_course_meta_info_field` (`id`, `shortname`, `name`, `datatype`, `description`, `descriptionformat`, `categoryid`, `sortorder`, `defaultdata`, `defaultdataformat`, `param1`, `param2`, `param3`, `param4`, `param5`)
 	VALUES
 		(1,'tab','Tab','menukeys','Which tab the course appears under in the catalogue',1,2,2,'webinars',0,'online\nblended','Online courses\nBlended learning',NULL,NULL,NULL),
@@ -70,10 +84,10 @@ To play with a course catalogue, you need to create particular fields to start o
 		(3,'keywords','Search keywords (comma separated)','text','Used in catalogue search alongside name, description',1,2,10,'',0,'60','2048','0','',''),
 		(4,'description','Course description','textarea','Description for the catalogue; might be different than the course homepage.',1,2,11,NULL,0,NULL,NULL,NULL,NULL,NULL);
 		(5,'notes','Developer notes','textarea','Things that might be important to write down about this particular course',1,1,1,'',1,NULL,NULL,NULL,NULL,NULL),
-	
+
 	ALTER TABLE `mdl_course_meta_info_field` ENABLE KEYS
 	UNLOCK TABLES;
-	
+
 	LOCK TABLES `mdl_course_meta_info_data` WRITE;
 	INSERT INTO `mdl_course_meta_info_data` (`courseid`, `fieldid`, `data`, `dataformat`)
 	VALUES
