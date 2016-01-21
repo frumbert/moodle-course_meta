@@ -8,7 +8,8 @@ class filter_coursemeta extends moodle_text_filter {
 	public function filter($text, array $options = array()) {
 		global $COURSE, $DB;
 
-		$find = '/\[\w+\.(\w+)\.(\w+)*\]/';
+		// $find = '/\[\w+\.(\w+)\.(\w+)*\]/'; // this aint gona cut it
+		$find = '/\[coursemeta{1}\.([a-zA-Z0-9_ ]+)\.([a-zA-Z0-9_ ]+)*\]/';
 		$courseid = $COURSE->id;
 
 		preg_match_all($find,$text, $matches, PREG_SET_ORDER);
