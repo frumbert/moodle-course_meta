@@ -1,6 +1,11 @@
 moodle-course_meta
 ==================
 
+for moodle 2+ branch; **broken in moodle 3+ branchs**; won't fix
+
+**If you are looking for a good alternatve to adding custom fields to objects in Moodle 3+, try the https://github.com/PoetOS/moodle-local_metadata project.**
+
+
 A quick way of adding custom fields to courses. Based on work by Mark Nelson, Pukunui. I couldn't find a repository for the original. Interesting to note that Totara LMS, based also on Moodle, implements its own version of course metadata fields (https://github.com/moodlehq/totara). Their code is neater than mine, so look that up if you want to play. 
 
 The [Master](https://github.com/frumbert/moodle-course_meta/tree/master) branch was designed with Moodle 2.3 in mind. Switch branches to grab the code for [Moodle 2.7](https://github.com/frumbert/moodle-course_meta/tree/Moodle2.7) or [Moodle 2.8.7](https://github.com/frumbert/moodle-course_meta/tree/Moodle2.8.7).
